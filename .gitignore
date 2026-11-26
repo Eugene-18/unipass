@@ -1,0 +1,19 @@
+# 依賴與建置產物
+node_modules/
+dist/
+
+# 機密設定：絕對不要提交到 Git
+.env
+.env.*
+!.env.example
+!client/.env.development
+
+# 本機資料庫檔（正式環境使用 Neon PostgreSQL）
+*.db
+
+# 系統與編輯器檔案
+.DS_Store
+.vscode/*
+!.vscode/extensions.json
+.idea
+*.log

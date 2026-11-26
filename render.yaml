@@ -1,0 +1,45 @@
+# Render Blueprint：後端 API（前端部署在 Vercel，見 client/vercel.json）
+# 標記 sync: false 的值不會寫在這個檔案裡，建立服務時在 Render 後台填入。
+services:
+  - type: web
+    name: unipass-api
+    runtime: node
+    region: singapore          # 與 Neon 資料庫（ap-southeast-1）同區，延遲最低
+    plan: free
+    rootDir: server
+    buildCommand: npm ci && npm run build
+    startCommand: npm start
+    envVars:
+      - key: NODE_VERSION
+        value: "22"
+      - key: DATABASE_URL
+        sync: false
+      - key: EMAIL_USER
+        sync: false
+      - key: EMAIL_PASS
+        sync: false
+      - key: GOOGLE_CLIENT_ID
+        sync: false
+      - key: GOOGLE_CLIENT_SECRET
+        sync: false
+      - key: NEWEBPAY_MERCHANT_ID
+        sync: false
+      - key: NEWEBPAY_HASH_KEY
+        sync: false
+      - key: NEWEBPAY_HASH_IV
+        sync: false
+      - key: NEWEBPAY_VERSION
+        value: "2.0"
+      # 測試環境 ccore；正式收款時改成 https://core.newebpay.com/MPG/mpg_gateway
+      - key: NEWEBPAY_PAY_GATEWAY
+        value: https://ccore.newebpay.com/MPG/mpg_gateway
+      # Vercel 前端網址，例：https://unipass.vercel.app（付款完成後會導回這裡的活動頁）
+      - key: FRONTEND_URL
+        sync: false
+      # 本服務自己的網址 + 路徑，例：https://unipass-api.onrender.com/api/payment/return
+      - key: NEWEBPAY_RETURN_URL
+        sync: false
+      - key: NEWEBPAY_NOTIFY_URL
+        sync: false
+      - key: RESET_EMAIL_COOLDOWN_SECONDS
+        value: "60"
